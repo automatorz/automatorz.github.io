@@ -1,43 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>String hasher</title>
+	<title>String Hasher</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 	<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAlJCLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREAABEQAAAQAAAAAAEAABABEAEAAQAAEAAQEAABAAAQABAQAAEAABAAEBAAAQABAAAQAAAAEAEAABAAAAAQABAAEBAAAQAAEAAQEAABAAAQABABAAEAABAAAAAAAQAAEAAAAAABAAABEQABERAAAAAAAAAAAADhhwAAw8MAAJ/5AACZmQAAmTkAAJk5AACZOQAAODwAADh8AACZOQAAmTkAAJmZAACf+QAAn/kAAMODAADhhwAA" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono" integrity="sha256-Jk/PjBZGboeGdtqE2tdqK713qel/GejC3ltzHa4V2VU=" crossorigin="anonymous">
-	<style>textarea{resize:none;font-family:"Roboto Mono",monospace;}</style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+	<style>textarea{font-family:"Roboto Mono",monospace;height:1em;resize:none;}</style>
 </head>
-<body>
-	<form action="/" method="post" class="p-2">
-		<input type="password" name="gen" class="form-control form-control-lg" data-lpignore="true" autofocus />
-		<input type="submit" class="btn btn-block btn-lg btn-primary mt-2" value="Generate" />
-	</form>
-	<div class="input-group p-2">
-		<textarea class="form-control form-control-lg text-truncate" rows="1" id="out1">empty</textarea>
-		<div class="input-group-append"><span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#out1">Copy</span></div>
+<body class="p-1">
+	<input type="password" id="pass" class="form-control form-control-lg" data-lpignore="true" autofocus />
+	<div class="btn-group btn-block mt-2" role="group">
+		<button id="submit-long" class="btn btn-lg btn-primary">Long Hash</button>
+		<button id="submit-short" class="btn btn-lg btn-secondary">Short Hash</button>
 	</div>
-	<div class="input-group p-2">
-		<textarea class="form-control form-control-lg text-truncate" rows="1" id="out2">empty</textarea>
-		<div class="input-group-append"><span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#out2">Copy</span></div>
-	</div>
-	<div class="input-group p-2">
-		<textarea class="form-control form-control-lg text-truncate" rows="1" id="out3">empty</textarea>
-		<div class="input-group-append"><span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#out3">Copy</span></div>
-	</div>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js" integrity="sha256-8MpIdXZrWpb1JXVJccjsXDKzvX927WNtletZ0/Ny3oQ=" crossorigin="anonymous"></script>
-	<script>
-		function showalert (message, alerttype) {
-			$("body").append ("<div id='alertdiv' class='alert alert-" +  alerttype + " m-2'><a class='close' data-dismiss='alert'>×</a><span>" + message + "</span></div>");
-			setTimeout (function() {$("#alertdiv").remove()}, 10000);
-		}
 
-		var clipboard = new ClipboardJS(".cpybtn");
-		clipboard.on ("success", function(e) {showalert ("Copied: " + e.text, "success")});
-		clipboard.on ("error", function(e) {showalert ("Error copying text", "danger")});
-	</script>
+	<div class="input-group p-2">
+		<textarea class="form-control form-control-lg text-truncate" rows="1" id="txt1"></textarea>
+		<div class="input-group-append">
+			<span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#txt1">Copy</span>
+		</div>
+	</div>
+
+	<div class="input-group p-2">
+		<textarea class="form-control form-control-lg text-truncate" rows="1" id="txt2"></textarea>
+		<div class="input-group-append">
+			<span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#txt2">Copy</span>
+		</div>
+	</div>
+
+	<div class="input-group p-2">
+		<textarea class="form-control form-control-lg text-truncate" rows="1" id="txt3"></textarea>
+		<div class="input-group-append">
+			<span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#txt3">Copy</span>
+		</div>
+	</div>
+
+	<div class="input-group p-2">
+		<textarea class="form-control form-control-lg text-truncate" rows="1" id="txt4"></textarea>
+		<div class="input-group-append">
+			<span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#txt4">Copy</span>
+		</div>
+	</div>
+
+	<div class="input-group p-2">
+		<textarea class="form-control form-control-lg text-truncate" rows="1" id="txt5"></textarea>
+		<div class="input-group-append">
+			<span class="btn btn-lg btn-primary cpybtn" data-clipboard-target="#txt5">Copy</span>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js" integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-XKa9Hemdy1Ui3KSGgJdgMyYlUg1gM+QhL6cnlyTe2qzMCYm4nAZ1PsVerQzTTXzonUR+dmswHqgJPuwCq1MaAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js" integrity="sha512-PmGDkK2UHGzTUfkFGcJ8YSrD/swUXekcca+1wWlrwALIZho9JX+3ddaaI9wmmf8PmgDIpMtx6TU8YBJAZS0mPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js" integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="index.js"></script>
 </body>
 </html>
